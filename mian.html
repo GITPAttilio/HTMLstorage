@@ -1,0 +1,90 @@
+<html>
+	<head>
+	<meta charset="utf-8">
+	
+	<title>bora la salva testinho bora</title>
+	<link href="assets/CSS/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+        <div class="box">
+             
+      
+            
+                <label for="nome">Nome:</label>
+                </br>
+                <input type="text" name="Nome" id="Nome" >
+           
+            </br>
+            
+                <label for="nome">Texto:</label>
+                </br>
+                <textarea type="text" id="Texto" name="texto" ></textarea> 
+            
+            </br>
+            
+                <button type="button" id="Grava" >Gravar</button>
+            
+            </br>
+            <div id="aviso">
+
+            </div>
+       
+        </div>
+
+    	<script>
+
+
+       var usoLocalStorage = {
+    Write: function () {
+        var Name = document.getElementById("Nome").value;
+        var ult_acesso = new Date();
+        var Text = document.getElementById("Texto").value;
+        if (Text && Text.length && Name && ult_acesso) {
+            console.log(Name);
+            console.log(ult_acesso);
+            console.log(Text);
+            localStorage.setItem('form',
+                JSON.stringify({
+                    nome: Name,
+                    texto: Text,
+                    ult_acesso: {
+                        mes: ult_acesso.getMonth()+1,
+                        dia: ult_acesso.getDate(),
+                        horas: ult_acesso.getHours(),
+                        minutos: ult_acesso.getMinutes(),
+                    }
+                })
+            );
+
+            console.log(JSON.parse(localStorage.getItem('form')));
+        }
+
+    },
+    Return: function () {
+        var obj = JSON.parse(localStorage.getItem('form'));
+
+        var ult_acesso = "Ultimo Acesso: "+obj.ult_acesso.dia+"/"+obj.ult_acesso.mes+"   "+obj.ult_acesso.horas+":"+obj.ult_acesso.minutos+"   bem vindo de volta";
+        document.getElementById("aviso").innerHTML = ult_acesso;
+        document.getElementById("Nome").value = obj.nome;
+        document.getElementById("Texto").value = obj.texto;
+    },
+   
+}
+
+document.addEventListener("DOMContentLoaded", function (event) {
+    console.log("carregado chefia");
+
+    if(localStorage.getItem('form')) {
+        usoLocalStorage.Return();
+    }
+
+    document.getElementById("Grava").addEventListener("click", usoLocalStorage.Write);
+
+});
+            
+        </script>
+
+	</body>
+</html>
